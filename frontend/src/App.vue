@@ -89,7 +89,7 @@ export default {
         });
 
         console.log("Push subscription:", subscription);
-        await fetch("http://localhost:8001/api/subscribe", {
+        await fetch("https://whale-stunning-brightly.ngrok-free.app/api/subscribe", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
