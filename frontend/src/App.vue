@@ -2,7 +2,7 @@
 <template>
   <div class="app">
     <header class="header">
-      <h1>PushNotify</h1>
+      <h1>Push Notification</h1>
 
       <button class="bell" @click="onBellClick">
         🔔
@@ -21,12 +21,23 @@
       >
         Install App
       </button>
+
+      <!-- Survey Upload Section -->
+      <div class="survey-section">
+        <h2>Survey Data Upload</h2>
+        <SurveyForm />
+      </div>
     </main>
   </div>
 </template>
 
 <script>
+import SurveyForm from './surveydataupload/SurveyForm.vue'
+
 export default {
+  components: {
+    SurveyForm
+  },
   data() {
     return {
       deferredPrompt: null,
@@ -39,8 +50,6 @@ export default {
       this.deferredPrompt = e;
       this.showInstallButton = true;
     });
-
-    // Add one-time listener for first click to trigger notification permission
     document.addEventListener('click', this.requestNotificationPermission, { once: true });
   },
   methods: {
@@ -52,7 +61,6 @@ export default {
       this.showInstallButton = false;
     },
     onBellClick() {
-      // Optionally keep this for manual trigger or retry
       this.requestNotificationPermission();
     },
     async requestNotificationPermission() {
@@ -61,7 +69,6 @@ export default {
         return;
       }
 
-      // Check current permission status to avoid redundant prompts
       if (Notification.permission === 'granted') {
         await this.subscribeToPush();
         return;
@@ -70,7 +77,6 @@ export default {
         return;
       }
 
-      // Request permission
       const permission = await Notification.requestPermission();
       if (permission === 'granted') {
         await this.subscribeToPush();
@@ -107,3 +113,17 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+/* Optional: Add some spacing for the new section */
+.survey-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+.survey-section h2 {
+  margin-bottom: 1rem;
+  color: #0d6efd;
+}
+</style>
